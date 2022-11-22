@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HospitalManagementSystem;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +13,19 @@ namespace Bagel_Shop
 {
     public partial class ucSell : UserControl
     {
-        public ucSell()
+        private static ucSell _instence;
+        public static ucSell Instence
+        {
+            get
+            {
+                if (_instence == null)
+                {
+                    _instence = new ucSell();
+                }
+                return _instence;
+            }
+        }
+        private ucSell()
         {
             InitializeComponent();
         }

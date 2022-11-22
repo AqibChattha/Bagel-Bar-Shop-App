@@ -16,21 +16,14 @@ namespace Bagel_Shop
         public MainForm()
         {
             InitializeComponent();
-            subMenuInitialState();
-        }
-
-        private void subMenuInitialState()
-        {
-            pnlSubMenuManage.Visible = false;
             pnlSubMenuEvaluation.Visible = false;
+            pnlContant.Controls.Add(ucSell.Instence);
+            ucSell.Instence.Dock = DockStyle.Fill;
+            ucSell.Instence.BringToFront();
         }
 
         private void hideSubMenu()
         {
-            if (pnlSubMenuManage.Visible == true)
-            {
-                pnlSubMenuManage.Visible = false;
-            }
             if (pnlSubMenuEvaluation.Visible == true)
             {
                 pnlSubMenuEvaluation.Visible = false;
@@ -52,9 +45,18 @@ namespace Bagel_Shop
 
         private void btnManage_Click(object sender, EventArgs e)
         {
-            showSubMenu(pnlSubMenuManage);
-            pnlShowCliked.Height = btnManage.Height;
-            pnlShowCliked.Top = btnManage.Top;
+            pnlShowCliked.Height = btnSellerDashboard.Height;
+            pnlShowCliked.Top = btnSellerDashboard.Top;
+            if (pnlContant.Controls.Contains(ucSell.Instence))
+            {
+                pnlContant.Controls.Add(ucSell.Instence);
+                ucSell.Instence.Dock = DockStyle.Fill;
+                ucSell.Instence.BringToFront();
+            }
+            else
+            {
+                ucSell.Instence.BringToFront();
+            }
         }
 
         private void btnGroups_Click(object sender, EventArgs e)

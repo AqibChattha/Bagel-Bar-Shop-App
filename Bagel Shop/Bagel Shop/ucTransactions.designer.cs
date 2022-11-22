@@ -29,6 +29,7 @@ namespace HospitalManagementSystem
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ucTransactions));
             this.tbSearch = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -37,6 +38,7 @@ namespace HospitalManagementSystem
             this.colTransactionNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colView = new System.Windows.Forms.DataGridViewImageColumn();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransactions)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,7 +48,9 @@ namespace HospitalManagementSystem
             this.tbSearch.Location = new System.Drawing.Point(654, 55);
             this.tbSearch.Name = "tbSearch";
             this.tbSearch.Size = new System.Drawing.Size(171, 20);
-            this.tbSearch.TabIndex = 10;
+            this.tbSearch.TabIndex = 0;
+            this.toolTip.SetToolTip(this.tbSearch, "Enter the transaction number or string representation of datetime to search the t" +
+        "ransaction.");
             this.tbSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // label1
@@ -56,7 +60,7 @@ namespace HospitalManagementSystem
             this.label1.Location = new System.Drawing.Point(613, 58);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
-            this.label1.TabIndex = 11;
+            this.label1.TabIndex = 2;
             this.label1.Text = "Search";
             // 
             // label16
@@ -67,7 +71,7 @@ namespace HospitalManagementSystem
             this.label16.Location = new System.Drawing.Point(339, 9);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(162, 37);
-            this.label16.TabIndex = 12;
+            this.label16.TabIndex = 3;
             this.label16.Text = "Transactions";
             // 
             // dgvTransactions
@@ -85,7 +89,7 @@ namespace HospitalManagementSystem
             this.dgvTransactions.Name = "dgvTransactions";
             this.dgvTransactions.RowTemplate.Height = 25;
             this.dgvTransactions.Size = new System.Drawing.Size(811, 524);
-            this.dgvTransactions.TabIndex = 13;
+            this.dgvTransactions.TabIndex = 1;
             // 
             // colTransactionNumber
             // 
@@ -93,6 +97,7 @@ namespace HospitalManagementSystem
             this.colTransactionNumber.HeaderText = "Transaction Number";
             this.colTransactionNumber.Name = "colTransactionNumber";
             this.colTransactionNumber.ReadOnly = true;
+            this.colTransactionNumber.ToolTipText = "The unique identity number of each transaction.";
             // 
             // colDateTime
             // 
@@ -100,6 +105,7 @@ namespace HospitalManagementSystem
             this.colDateTime.HeaderText = "Date/Time";
             this.colDateTime.Name = "colDateTime";
             this.colDateTime.ReadOnly = true;
+            this.colDateTime.ToolTipText = "The date and time the transaction was done.";
             // 
             // colView
             // 
@@ -109,7 +115,13 @@ namespace HospitalManagementSystem
             this.colView.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
             this.colView.Name = "colView";
             this.colView.ReadOnly = true;
+            this.colView.ToolTipText = "View transaction details.";
             this.colView.Width = 36;
+            // 
+            // toolTip
+            // 
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip.ToolTipTitle = "Info";
             // 
             // ucTransactions
             // 
@@ -132,6 +144,7 @@ namespace HospitalManagementSystem
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.DataGridView dgvTransactions;
+        private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTransactionNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDateTime;
         private System.Windows.Forms.DataGridViewImageColumn colView;

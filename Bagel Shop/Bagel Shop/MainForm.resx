@@ -156,7 +156,7 @@
         CE2sCqp2/A2tLUHvdNoi/10lEp91tF3R3gTZTQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="btnManage.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnSellerDashboard.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABYAAAAZCAYAAAA14t7uAAAABGdBTUEAALGPC/xhBQAAAXtJREFUSEvt
         1b8rRlEcx/GboocelEUi8mM0yy6LUgyPQRiUkhQpM7MyErOMohhNGCx+DP4DRjbyo3S9P/U93dtxHo97
@@ -335,6 +335,9 @@
         rOMxxLb1GJEAAAAASUVORK5CYII=
 </value>
   </data>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAQEAAAAAAIAAmEgAAFgAAAIlQTkcNChoKAAAADUlIRFIAAABAAAAAQAgGAAAAqmlx3gAAAARz
