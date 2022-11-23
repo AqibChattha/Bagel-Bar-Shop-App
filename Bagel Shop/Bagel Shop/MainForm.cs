@@ -57,15 +57,14 @@ namespace Bagel_Shop
         private const char SEPARATOR = ',';
 
         private string Receipt;
-
-        private List<int[]> OrderItemList;
+        
 
         const int ROW_POS = 0, COL_POS = 1, QUANTITY_POS = 2;
 
         private void orderBtn_Click(object sender, EventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 if (OrderedItems > 0)
                 {
                     String TransactionNumber = getUniqueRandomTransactionNumber();
@@ -93,10 +92,10 @@ namespace Bagel_Shop
                     Receipt += "Total Price. \t" + OrderDetails[ORDER_TOTAL_POS] + '\n';
 
                     String line = String.Join(SEPARATOR.ToString(), OrderDetails);
-                    using (StreamWriter sw = File.AppendText(TRANSACTION_FILE))
-                    {
+                StreamWriter sw = File.AppendText(TRANSACTION_FILE);
                         sw.WriteLine(line);
-                    }
+                sw.Dispose();
+                        sw.Close();
 
                     MessageBox.Show("Order placed successfully. Your transaction number is " + TransactionNumber + "." + Receipt, "Order Completed", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -106,11 +105,11 @@ namespace Bagel_Shop
 
                     NumberOfTransactions++;
                 }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("There was an error processing the order. Please, try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //}
+            //catch (Exception)
+            //{
+            //    MessageBox.Show("There was an error processing the order. Please, try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         private void saleReportBtn_Click(object sender, EventArgs e)
@@ -369,6 +368,15 @@ namespace Bagel_Shop
             write2DIntArrayToFile(STOCK_FILE, BagelStockLevelsTemp);
         }
 
+        private void searchInputTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                searchBtn.PerformClick();
+                e.SuppressKeyPress = true;
+            }
+        }
+
         private void stockToFileBtn_Click(object sender, EventArgs e)
         {
             if (OrderedItems > 0)
@@ -389,6 +397,7 @@ namespace Bagel_Shop
                         stream.WriteLine(BagelNames[row] + " - " + BagelSizes[col] + ", \t\t\t" + BagelStockLevelsTemp[row, col]);
                     }
                 }
+                stream.Dispose();
                 stream.Close();
                 MessageBox.Show("Stock Report File of the name \"" + STOCK_REPORT_FILE + "\" has been generated. Please check the debug folder.", "Stock Report", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -426,10 +435,21 @@ namespace Bagel_Shop
 
         private void MyBagelShopApp_Load(object sender, EventArgs e)
         {
-            OrderItemList = new List<int[]>();
-            load2DIntArrayFromFile(STOCK_FILE, ref BagelOpeningStock);
+            if (File.Exists(PRICES_FILE) || File.Exists(STOCK_FILE))
+            {
+                load2DIntArrayFromFile(STOCK_FILE, ref BagelOpeningStock);
+                load2DDecimalArrayFromFile(PRICES_FILE, ref BagelPrices);
+            }
+            else
+            {
+                MessageBox.Show("Prices or Stock File not found. Please check the debug folder.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            if (!File.Exists(TRANSACTION_FILE))
+            {
+                using (File.Create(TRANSACTION_FILE)) { }
+            }
             BagelStockLevelsTemp = (int[,])BagelOpeningStock.Clone();
-            load2DDecimalArrayFromFile(PRICES_FILE, ref BagelPrices);
         }
 
         private bool load2DDecimalArrayFromFile(String fileName, ref decimal[,] records)
@@ -452,7 +472,7 @@ namespace Bagel_Shop
             }
             catch (Exception)
             {
-                MessageBox.Show("Error loading data from file: " + fileName + "\r");
+                MessageBox.Show("Sorry, There was an error loading data from file: " + fileName + ". Please check the file and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return false;
         }
@@ -477,7 +497,7 @@ namespace Bagel_Shop
             }
             catch (Exception)
             {
-                MessageBox.Show("Error loading data from file: " + fileName + "\r");
+                MessageBox.Show("Sorry, There was an error loading the data from file: " + fileName + ". Please check the file and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return false;
         }
@@ -498,16 +518,15 @@ namespace Bagel_Shop
                     }
                     stream.WriteLine(String.Join(SEPARATOR.ToString(), RecordRow));
                 }
+                stream.Dispose();
                 stream.Close();
             }
             catch (Exception)
             {
-                MessageBox.Show("Error writing data to file: " + fileName + "\r");
+                MessageBox.Show("Sorry, There was an error in writing data to file: " + fileName + ".", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return false;
         }
-
-        const string PriceFilePath = "PricesBagelShop.txt";
 
         private void addToCartBtn_Click(object sender, EventArgs e)
         {
@@ -529,7 +548,6 @@ namespace Bagel_Shop
                         OrderPrice = BagelPrices[BagelNameIndex, BagelSizeIndex] * Quantity;
                         OrderLineItem = BagelNames[BagelNameIndex] + " - " + BagelSizes[BagelSizeIndex] + "\t" + Quantity + "\t" + OrderPrice.ToString("C");
                         ItemGroupBox.Items.Add(OrderLineItem);
-                        OrderItemList.Add(new int[] { BagelNameIndex, BagelSizeIndex, Quantity });
                         RunningTotal += OrderPrice;
                         totalDisplayLabel.Text = RunningTotal.ToString("C");
                         OrderedItems += Quantity;
@@ -542,7 +560,7 @@ namespace Bagel_Shop
                     }
                     else
                     {
-                        MessageBox.Show("Sorry, we only have " + QuantityInStock + " in stock");
+                        MessageBox.Show("Sorry, we have " + QuantityInStock + " bagels of this combination in stock");
                         quantityNumericUpDown.Value = QuantityInStock;
                         quantityNumericUpDown.Focus();
                     }

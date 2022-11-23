@@ -56,14 +56,14 @@
             this.removeBtn = new System.Windows.Forms.Button();
             this.orderBtn = new System.Windows.Forms.Button();
             this.ItemGroupBox = new System.Windows.Forms.ListBox();
+            this.clearBtn = new System.Windows.Forms.Button();
+            this.addToCartBtn = new System.Windows.Forms.Button();
             this.quantityNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.totalDisplayLabel = new System.Windows.Forms.Label();
             this.priceDisplayLabel = new System.Windows.Forms.Label();
             this.totalLabel = new System.Windows.Forms.Label();
             this.quantityLabel = new System.Windows.Forms.Label();
             this.priceLabel = new System.Windows.Forms.Label();
-            this.clearBtn = new System.Windows.Forms.Button();
-            this.addToCartBtn = new System.Windows.Forms.Button();
             this.saleReportBtn = new System.Windows.Forms.Button();
             this.stockToFileBtn = new System.Windows.Forms.Button();
             this.searchTrxGroupBox = new System.Windows.Forms.GroupBox();
@@ -466,6 +466,34 @@
             this.ItemGroupBox.Size = new System.Drawing.Size(356, 124);
             this.ItemGroupBox.TabIndex = 17;
             // 
+            // clearBtn
+            // 
+            this.clearBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.clearBtn.Font = new System.Drawing.Font("Arial", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.clearBtn.Location = new System.Drawing.Point(363, 141);
+            this.clearBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.clearBtn.Name = "clearBtn";
+            this.clearBtn.Size = new System.Drawing.Size(68, 21);
+            this.clearBtn.TabIndex = 25;
+            this.clearBtn.Text = "&Clear";
+            this.btnToolTip.SetToolTip(this.clearBtn, "Press Clear button to take new order");
+            this.clearBtn.UseVisualStyleBackColor = true;
+            this.clearBtn.Click += new System.EventHandler(this.clearBtn_Click);
+            // 
+            // addToCartBtn
+            // 
+            this.addToCartBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.addToCartBtn.Font = new System.Drawing.Font("Arial", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addToCartBtn.Location = new System.Drawing.Point(85, 125);
+            this.addToCartBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.addToCartBtn.Name = "addToCartBtn";
+            this.addToCartBtn.Size = new System.Drawing.Size(166, 37);
+            this.addToCartBtn.TabIndex = 24;
+            this.addToCartBtn.Text = "&Add to Cart";
+            this.btnToolTip.SetToolTip(this.addToCartBtn, "Press the \"Add to Cart button\" to add the chosen bagel quantity to your cart.");
+            this.addToCartBtn.UseVisualStyleBackColor = true;
+            this.addToCartBtn.Click += new System.EventHandler(this.addToCartBtn_Click);
+            // 
             // quantityNumericUpDown
             // 
             this.quantityNumericUpDown.Location = new System.Drawing.Point(85, 57);
@@ -532,34 +560,6 @@
             this.priceLabel.TabIndex = 17;
             this.priceLabel.Text = "Price";
             // 
-            // clearBtn
-            // 
-            this.clearBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.clearBtn.Font = new System.Drawing.Font("Arial", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.clearBtn.Location = new System.Drawing.Point(363, 141);
-            this.clearBtn.Margin = new System.Windows.Forms.Padding(2);
-            this.clearBtn.Name = "clearBtn";
-            this.clearBtn.Size = new System.Drawing.Size(68, 21);
-            this.clearBtn.TabIndex = 25;
-            this.clearBtn.Text = "&Clear";
-            this.btnToolTip.SetToolTip(this.clearBtn, "Press Clear button to take new order");
-            this.clearBtn.UseVisualStyleBackColor = true;
-            this.clearBtn.Click += new System.EventHandler(this.clearBtn_Click);
-            // 
-            // addToCartBtn
-            // 
-            this.addToCartBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.addToCartBtn.Font = new System.Drawing.Font("Arial", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addToCartBtn.Location = new System.Drawing.Point(85, 125);
-            this.addToCartBtn.Margin = new System.Windows.Forms.Padding(2);
-            this.addToCartBtn.Name = "addToCartBtn";
-            this.addToCartBtn.Size = new System.Drawing.Size(166, 37);
-            this.addToCartBtn.TabIndex = 24;
-            this.addToCartBtn.Text = "&Add to Cart";
-            this.btnToolTip.SetToolTip(this.addToCartBtn, "Press the \"Add to Cart button\" to add the chosen bagel quantity to your cart.");
-            this.addToCartBtn.UseVisualStyleBackColor = true;
-            this.addToCartBtn.Click += new System.EventHandler(this.addToCartBtn_Click);
-            // 
             // saleReportBtn
             // 
             this.saleReportBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -616,7 +616,7 @@
             this.clearSearchBtn.Name = "clearSearchBtn";
             this.clearSearchBtn.Size = new System.Drawing.Size(72, 25);
             this.clearSearchBtn.TabIndex = 33;
-            this.clearSearchBtn.Text = "&Clear";
+            this.clearSearchBtn.Text = "&C&lear";
             this.btnToolTip.SetToolTip(this.clearSearchBtn, "Press Clear Button to clear the transaction box of all the data currently shown.");
             this.clearSearchBtn.UseVisualStyleBackColor = true;
             this.clearSearchBtn.Click += new System.EventHandler(this.clearSearchBtn_Click);
@@ -642,6 +642,7 @@
             this.searchInputTextBox.Name = "searchInputTextBox";
             this.searchInputTextBox.Size = new System.Drawing.Size(253, 21);
             this.searchInputTextBox.TabIndex = 32;
+            this.searchInputTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.searchInputTextBox_KeyDown);
             // 
             // transactionNoRadioButton
             // 

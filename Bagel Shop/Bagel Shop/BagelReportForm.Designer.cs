@@ -83,7 +83,7 @@
             this.Exit.Name = "Exit";
             this.Exit.Size = new System.Drawing.Size(85, 29);
             this.Exit.TabIndex = 2;
-            this.Exit.Text = "Exit";
+            this.Exit.Text = "E&xit";
             this.btnToolTip.SetToolTip(this.Exit, "Press to close the sales report form.");
             this.Exit.UseVisualStyleBackColor = false;
             this.Exit.Click += new System.EventHandler(this.Exit_Click);
