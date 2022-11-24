@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -48,6 +49,7 @@ namespace Bagel_Shop
 
         const int TX_NO_POS = 0, DATE_POS = 1, ORDER_TOTAL_POS = 2, FIRST_LINE_ITEM_POS = 3;
         private int BagelNameIndex = -1, BagelSizeIndex = -1, OrderedItems = 0;
+        private CultureInfo cultureInfo = new CultureInfo("fr-FR");
         private int NumberOfTransactions = 0;
         private decimal RunningTotal;
         private const String TRANSACTION_FILE = "BagelTransactions.txt";
@@ -88,7 +90,7 @@ namespace Bagel_Shop
                     }
 
                     Receipt += "--------------------------------------------------------------------\n";
-                    OrderDetails[ORDER_TOTAL_POS] = RunningTotal.ToString("C");
+                    OrderDetails[ORDER_TOTAL_POS] = RunningTotal.ToString("C2", cultureInfo);
                     Receipt += "Total Price. \t" + OrderDetails[ORDER_TOTAL_POS] + '\n';
 
                     String line = String.Join(SEPARATOR.ToString(), OrderDetails);
@@ -285,7 +287,7 @@ namespace Bagel_Shop
 
             RunningTotal = RunningTotal - (Quantity * BagelPrices[Row, Col]);
 
-            totalDisplayLabel.Text = RunningTotal.ToString("C2");
+            totalDisplayLabel.Text = RunningTotal.ToString("C2", cultureInfo);
         }
 
         private void exitBtn_Click(object sender, EventArgs e)
@@ -331,7 +333,7 @@ namespace Bagel_Shop
                 BagelNameIndex = int.Parse(BagelTypeBtn.Tag.ToString());
                 if (BagelNameIndex != -1 && BagelSizeIndex != -1)
                 {
-                    priceDisplayLabel.Text = BagelPrices[BagelNameIndex, BagelSizeIndex].ToString("C2");
+                    priceDisplayLabel.Text = BagelPrices[BagelNameIndex, BagelSizeIndex].ToString("C2", cultureInfo);
                 }
             }
             catch (Exception)
@@ -350,7 +352,7 @@ namespace Bagel_Shop
                 BagelSizeIndex = int.Parse(BagelSizeBtn.Tag.ToString());
                 if (BagelNameIndex != -1 && BagelSizeIndex != -1)
                 {
-                    priceDisplayLabel.Text = BagelPrices[BagelNameIndex, BagelSizeIndex].ToString("C2");
+                    priceDisplayLabel.Text = BagelPrices[BagelNameIndex, BagelSizeIndex].ToString("C2", cultureInfo);
                 }
             }
             catch (Exception)
@@ -546,10 +548,10 @@ namespace Bagel_Shop
                     if (Quantity <= QuantityInStock)
                     {
                         OrderPrice = BagelPrices[BagelNameIndex, BagelSizeIndex] * Quantity;
-                        OrderLineItem = BagelNames[BagelNameIndex] + " - " + BagelSizes[BagelSizeIndex] + "\t" + Quantity + "\t" + OrderPrice.ToString("C");
+                        OrderLineItem = BagelNames[BagelNameIndex] + " - " + BagelSizes[BagelSizeIndex] + "\t" + Quantity + "\t" + OrderPrice.ToString("C2", cultureInfo);
                         ItemGroupBox.Items.Add(OrderLineItem);
                         RunningTotal += OrderPrice;
-                        totalDisplayLabel.Text = RunningTotal.ToString("C");
+                        totalDisplayLabel.Text = RunningTotal.ToString("C2", cultureInfo);
                         OrderedItems += Quantity;
                         BagelStockLevelsTemp[BagelNameIndex, BagelSizeIndex] -= Quantity;
                         BagelNameIndex = -1;

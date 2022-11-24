@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace Bagel_Shop
 
         public void loadSalesReport(String[] stockNames, String[] stoclSizes, int[,] openingStock, int[,] closingStock, decimal[,] stockPrices, int numberOfTransactions)
         {
+            CultureInfo cultureInfo = new CultureInfo("fr-FR");
             int totalUnitsSold = 0;
             decimal totalSalesValue = 0.0M;
             listBoxReport.Items.Clear();
@@ -36,7 +38,7 @@ namespace Bagel_Shop
                     totalUnitsSold += QuantitySold;
                     decimal totalPrice = stockPrices[row, col] * QuantitySold;
                     totalSalesValue += totalPrice;
-                    ReportItem = stockNames[row] + " - " + stoclSizes[col] + " \t\t\t" + QuantitySold + " \t\t" + (totalPrice).ToString("C2");
+                    ReportItem = stockNames[row] + " - " + stoclSizes[col] + " \t\t\t" + QuantitySold + " \t\t" + (totalPrice).ToString("C2", cultureInfo);
                     listBoxReport.Items.Add(ReportItem);
                 }
             }
@@ -46,9 +48,9 @@ namespace Bagel_Shop
                 averagePerTranasaction = totalSalesValue / numberOfTransactions;
             }
             lbBagelsSold.Text = totalUnitsSold.ToString();
-            lbSalseValue.Text = totalSalesValue.ToString("C2");
+            lbSalseValue.Text = totalSalesValue.ToString("C2", cultureInfo);
             lbNumberOfTransactions.Text = numberOfTransactions.ToString();
-            lbAverageTransactionPrice.Text = averagePerTranasaction.ToString("C2");
+            lbAverageTransactionPrice.Text = averagePerTranasaction.ToString("C2", cultureInfo);
         }
     }
 }
