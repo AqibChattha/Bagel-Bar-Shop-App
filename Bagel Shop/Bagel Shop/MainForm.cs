@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace Bagel_Shop
@@ -25,7 +26,22 @@ namespace Bagel_Shop
         private static String[] BagelSizes = { "Small", "Medium", "Regular", "Large", "Extra Large" };
         private static String[] BagelSizesAbbreviated = { "S", "M", "R", "L", "XL" };
 
-        private static decimal[,] BagelPrices = new decimal[BagelNames.Length, BagelSizes.Length];
+        private static decimal[,] BagelPrices =
+        {
+            { 2.45m, 2.95m, 3.45m, 3.95m, 4.45m },
+            { 2.5m, 3.0m, 3.5m, 4.0m, 4.5m },
+            { 2.55m, 3.05m, 3.55m, 4.05m, 4.55m },
+            { 2.6m, 3.1m, 3.6m, 4.1m, 4.6m },
+            { 2.65m, 3.15m, 3.65m, 4.15m, 4.65m },
+            { 2.7m, 3.2m, 3.7m, 4.2m, 4.7m },
+            { 2.75m, 3.25m, 3.75m, 4.25m, 4.75m },
+            { 2.8m, 3.3m, 3.8m, 4.3m, 4.8m },
+            { 2.85m, 3.35m, 3.85m, 4.35m, 4.85m },
+            { 2.9m, 3.4m, 3.9m, 4.4m, 4.9m },
+            { 2.95m, 3.45m, 3.95m, 4.45m, 4.95m },
+            { 3.0m, 3.5m, 4.0m, 4.5m, 5.0m },
+            { 3.05m, 3.55m, 4.05m, 4.55m, 5.05m }
+        };
 
         private int[,] BagelStockLevels =
         {
@@ -56,22 +72,22 @@ namespace Bagel_Shop
         private const String PRICES_FILE = "BagelPrices.txt";
         private const String STOCK_FILE = "BagelStock.txt";
         private const String STOCK_REPORT_FILE = "BagelStockReport.txt";
-        private const char SEPARATOR = ',';
+        private const char SEPARATOR = '^';
 
         private string Receipt;
-        
+
 
         const int ROW_POS = 0, COL_POS = 1, QUANTITY_POS = 2;
 
-        private void orderBtn_Click(object sender, EventArgs e)
+        private void orderBtn_Click(object sender, EventArgs e) // When the order button is pressed. It will save the transaction and also view the receipt.
         {
-            //try
-            //{
+            try
+            {
                 if (OrderedItems > 0)
                 {
                     String TransactionNumber = getUniqueRandomTransactionNumber();
 
-                    String[] OrderDetails = new String[FIRST_LINE_ITEM_POS + ItemGroupBox.Items.Count];
+                    String[] OrderDetails = new String[FIRST_LINE_ITEM_POS + dgvOrders.Rows.Count];
 
                     Receipt += "\n\nRECEIPT.\n\n";
                     Receipt += "Company \tMyBagelShop Inc.\n";
@@ -83,10 +99,20 @@ namespace Bagel_Shop
                     Receipt += "Date \t\t" + OrderDetails[DATE_POS] + '\n';
 
                     Receipt += "--------------------------------------------------------------------\n";
-                    for (int i = 0; i < ItemGroupBox.Items.Count; i++)
+                    for (int i = 0; i < dgvOrders.Rows.Count; i++)
                     {
-                        OrderDetails[FIRST_LINE_ITEM_POS + i] = ItemGroupBox.Items[i].ToString();
-                        Receipt += (i + 1) + " - " + OrderDetails[FIRST_LINE_ITEM_POS + i] + '\n';
+                        string additionalTab = "";
+                        string additionalTab2 = "";
+                        if (dgvOrders.Rows[i].Cells[0].Value.ToString().Length < 8)
+                        {
+                            additionalTab = "\t";
+                        }
+                        if (!dgvOrders.Rows[i].Cells[1].Value.ToString().Equals("Extra Large") || !BagelNames.Any(x => x == dgvOrders.Rows[i].Cells[0].Value.ToString()))
+                        {
+                            additionalTab2 = "\t";
+                        }
+                        OrderDetails[FIRST_LINE_ITEM_POS + i] = dgvOrders.Rows[i].Cells[0].Value.ToString() + '\t' + additionalTab + dgvOrders.Rows[i].Cells[1].Value.ToString() + '\t' + additionalTab2 + dgvOrders.Rows[i].Cells[2].Value.ToString() + '\t' + dgvOrders.Rows[i].Cells[3].Value.ToString();
+                        Receipt += dgvOrders.Rows[i].Cells[0].Value.ToString() + '\t' + additionalTab + dgvOrders.Rows[i].Cells[1].Value.ToString() + '\t' + additionalTab2 + dgvOrders.Rows[i].Cells[2].Value.ToString() + '\t' + dgvOrders.Rows[i].Cells[3].Value.ToString() + "\n";
                     }
 
                     Receipt += "--------------------------------------------------------------------\n";
@@ -94,10 +120,10 @@ namespace Bagel_Shop
                     Receipt += "Total Price. \t" + OrderDetails[ORDER_TOTAL_POS] + '\n';
 
                     String line = String.Join(SEPARATOR.ToString(), OrderDetails);
-                StreamWriter sw = File.AppendText(TRANSACTION_FILE);
-                        sw.WriteLine(line);
-                sw.Dispose();
-                        sw.Close();
+                    StreamWriter sw = File.AppendText(TRANSACTION_FILE);
+                    sw.WriteLine(line);
+                    sw.Dispose();
+                    sw.Close();
 
                     MessageBox.Show("Order placed successfully. Your transaction number is " + TransactionNumber + "." + Receipt, "Order Completed", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -107,21 +133,21 @@ namespace Bagel_Shop
 
                     NumberOfTransactions++;
                 }
-            //}
-            //catch (Exception)
-            //{
-            //    MessageBox.Show("There was an error processing the order. Please, try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("There was an error processing the order. Please, try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void saleReportBtn_Click(object sender, EventArgs e)
+        private void saleReportBtn_Click(object sender, EventArgs e) // When the sales report button is pressed it will open a new form that will display the reports of the shop.
         {
             BagelReportForm BagelReport = new BagelReportForm();
             BagelReport.loadSalesReport(BagelNames, BagelSizesAbbreviated, BagelOpeningStock, BagelStockLevelsTemp, BagelPrices, NumberOfTransactions);
             BagelReport.ShowDialog();
         }
 
-        private void searchBtn_Click(object sender, EventArgs e)
+        private void searchBtn_Click(object sender, EventArgs e) // If the search button is pressed it will load the corresponding transactions from the transaction file into the listbox.
         {
             String[] AllFileLines;
             String Search;
@@ -166,7 +192,7 @@ namespace Bagel_Shop
             }
         }
 
-        private void AddFileRecordToListBox(string fileLine, ref ListBox listBox)
+        private void AddFileRecordToListBox(string fileLine, ref ListBox listBox) // This method is used to display the tramsactions in the listbox.
         {
             string[] Order = fileLine.Split(SEPARATOR);
 
@@ -174,9 +200,11 @@ namespace Bagel_Shop
             String Date = Order[DATE_POS];
             String TotalSale = Order[ORDER_TOTAL_POS];
 
-            listBox.Items.Add("Transaction No. \t" + TXNo);
-            listBox.Items.Add("Date \t" + Date);
+            listBox.Items.Add("Company \tMyBagelShop Inc.\n");
+            listBox.Items.Add("TX No. \t\t" + TXNo);
+            listBox.Items.Add("Date \t\t" + Date);
 
+            listBox.Items.Add("--------------------------------------------------------------------");
             for (int i = 3; i < Order.Length; i++)
             {
                 listBox.Items.Add(Order[i]);
@@ -184,14 +212,15 @@ namespace Bagel_Shop
             listBox.Items.Add("--------------------------------------------------------------------");
             listBox.Items.Add("Total Sale \t" + TotalSale);
             listBox.Items.Add("");
+            listBox.Items.Add("");
         }
 
-        private int SearchUniqueIndex(string search, string[] allFileLines)
+        private int SearchUniqueIndex(string search, string[] allFileLines) // This will search and return the index of the transaction if the transaction ID is matched.
         {
             int index = -1;
             for (int i = 0; i < allFileLines.Length; i++)
             {
-                string[] splitting = allFileLines[i].Split(',');
+                string[] splitting = allFileLines[i].Split(SEPARATOR);
                 if (splitting[0].Equals(search))
                 {
                     index = i;
@@ -200,12 +229,12 @@ namespace Bagel_Shop
             return index;
         }
 
-        private List<int> SearchDatedTransactions(string search, string[] allFileLines)
+        private List<int> SearchDatedTransactions(string search, string[] allFileLines) // returns transactions ids on the basis of date.
         {
             List<int> indices = new List<int>();
             for (int i = 0; i < allFileLines.Length; i++)
             {
-                string[] splitting = allFileLines[i].Split(',');
+                string[] splitting = allFileLines[i].Split(SEPARATOR);
                 if (splitting[1].Contains(search))
                 {
                     indices.Add(i);
@@ -214,7 +243,7 @@ namespace Bagel_Shop
             return indices;
         }
 
-        private List<String> SearchAll(string searchValue, string[] allFileLines)
+        private List<String> SearchAll(string searchValue, string[] allFileLines) // this method will search the given string inside the whole transaction.
         {
             List<String> searchResults = new List<string>();
             for (int i = 0; i < allFileLines.Length; i++)
@@ -227,24 +256,25 @@ namespace Bagel_Shop
             return searchResults;
         }
 
-        private void clearSearchBtn_Click(object sender, EventArgs e)
+        private void clearSearchBtn_Click(object sender, EventArgs e) // This method will clear the search and the listbox.
         {
+            searchInputTextBox.Clear();
             searchResultListBox.Items.Clear();
         }
 
-        private void clearBtn_Click(object sender, EventArgs e)
+        private void clearBtn_Click(object sender, EventArgs e) // This method will clear all the order in the cart and return them back into the list.
         {
-            foreach (var item in ItemGroupBox.Items)
+            foreach (DataGridViewRow row in dgvOrders.Rows)
             {
-                RecoverRemoveItemFromListBox(item.ToString());
+                RecoverRemoveItemFromDataGridView(row);
             }
             resetOrderFields();
 
         }
 
-        private void resetOrderFields()
+        private void resetOrderFields() // This method will reset all the order area fields.
         {
-            ItemGroupBox.Items.Clear();
+            dgvOrders.Rows.Clear();
             OrderedItems = 0;
             RunningTotal = 0;
             totalDisplayLabel.Text = "";
@@ -253,32 +283,30 @@ namespace Bagel_Shop
             resetTypeButtonColors();
         }
 
-        private void removeBtn_Click(object sender, EventArgs e)
+        private void removeBtn_Click(object sender, EventArgs e) // This method is used to remove the selected row from the cart.
         {
-            if (ItemGroupBox.SelectedIndex != -1)
+            foreach (DataGridViewRow row in this.dgvOrders.SelectedRows)
             {
-                RecoverRemoveItemFromListBox(ItemGroupBox.SelectedItem.ToString());
-                ItemGroupBox.Items.RemoveAt(ItemGroupBox.SelectedIndex);
+                RecoverRemoveItemFromDataGridView(row);
+                dgvOrders.Rows.RemoveAt(row.Index);
             }
         }
 
-        private void RecoverRemoveItemFromListBox(String item)
+        private void RecoverRemoveItemFromDataGridView(DataGridViewRow row) // This method is used to recover the removed item from the cart.
         {
-            String[] firstSplit = item.Split(new String[] { " - " }, StringSplitOptions.None);
-            String[] Item = firstSplit[1].Split('\t');
             int Row = -1, Col = -1;
             for (int i = 0; i < BagelNames.Length; i++)
             {
                 for (int j = 0; j < BagelSizes.Length; j++)
                 {
-                    if (firstSplit[0].Equals(BagelNames[i]) && Item[0].Equals(BagelSizes[j]))
+                    if (row.Cells[0].Value.ToString().Equals(BagelNames[i]) && row.Cells[1].Value.ToString().Equals(BagelSizes[j]))
                     {
                         Row = i;
                         Col = j;
                     }
                 }
             }
-            int Quantity = int.Parse(Item[1]);
+            int Quantity = Convert.ToInt32(row.Cells[2].Value);
 
             BagelStockLevelsTemp[Row, Col] += Quantity;
 
@@ -290,12 +318,12 @@ namespace Bagel_Shop
             totalDisplayLabel.Text = RunningTotal.ToString("C2", cultureInfo);
         }
 
-        private void exitBtn_Click(object sender, EventArgs e)
+        private void exitBtn_Click(object sender, EventArgs e) // This method is used to exit the application.
         {
             Application.Exit();
         }
 
-        private void resetTypeButtonColors()
+        private void resetTypeButtonColors() // This method will reset all the buttons color in the bagel type section.
         {
             // set color to system control
             wholeWheatBtn.BackColor = SystemColors.Control;
@@ -313,7 +341,7 @@ namespace Bagel_Shop
             cheddarBtn.BackColor = SystemColors.Control;
         }
 
-        private void resetSizeButtonColors()
+        private void resetSizeButtonColors() // This method will reset all the buttons in the bagel size section.
         {
             smallSizeBtn.BackColor = SystemColors.Control;
             mediumSizeBtn.BackColor = SystemColors.Control;
@@ -323,7 +351,7 @@ namespace Bagel_Shop
         }
 
 
-        private void BagelTypeBtns_Click(object sender, EventArgs e)
+        private void BagelTypeBtns_Click(object sender, EventArgs e) // When a bagel type button is clicked, this method reset all fields and set the clicked button to green.
         {
             try
             {
@@ -342,7 +370,7 @@ namespace Bagel_Shop
             }
         }
 
-        private void BagelSizeBtns_Click(object sender, EventArgs e)
+        private void BagelSizeBtns_Click(object sender, EventArgs e) // When a bagel size button is clicked, this method reset all fields and set the clicked button to green.
         {
             try
             {
@@ -361,11 +389,11 @@ namespace Bagel_Shop
             }
         }
 
-        private void MyBagelShopApp_FormClosing(object sender, FormClosingEventArgs e)
+        private void MyBagelShopApp_FormClosing(object sender, FormClosingEventArgs e) // This method will save the stock levels into the file.
         {
-            foreach (var item in ItemGroupBox.Items)
+            foreach (DataGridViewRow row in dgvOrders.Rows)
             {
-                RecoverRemoveItemFromListBox(item.ToString());
+                RecoverRemoveItemFromDataGridView(row);
             }
             write2DIntArrayToFile(STOCK_FILE, BagelStockLevelsTemp);
         }
@@ -379,7 +407,7 @@ namespace Bagel_Shop
             }
         }
 
-        private void stockToFileBtn_Click(object sender, EventArgs e)
+        private void stockToFileBtn_Click(object sender, EventArgs e) // Maually save the stock file when the application is running.
         {
             if (OrderedItems > 0)
             {
@@ -409,7 +437,7 @@ namespace Bagel_Shop
             }
         }
 
-        private string getUniqueRandomTransactionNumber()
+        private string getUniqueRandomTransactionNumber() // Returns a unique transaction id for new transactions.
         {
             string TransactionNumber;
 
@@ -435,26 +463,42 @@ namespace Bagel_Shop
             return TransactionNumber;
         }
 
-        private void MyBagelShopApp_Load(object sender, EventArgs e)
+        private void MyBagelShopApp_Load(object sender, EventArgs e) // Function called when the app loads. It will initializa all the lists in the application.
         {
-            if (File.Exists(PRICES_FILE) || File.Exists(STOCK_FILE))
+            try
             {
-                load2DIntArrayFromFile(STOCK_FILE, ref BagelOpeningStock);
-                load2DDecimalArrayFromFile(PRICES_FILE, ref BagelPrices);
+                if (File.Exists(PRICES_FILE))
+                {
+                    load2DDecimalArrayFromFile(PRICES_FILE, ref BagelPrices);
+                }
             }
-            else
-            {
-                MessageBox.Show("Prices or Stock File not found. Please check the debug folder.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception) { }
 
-            if (!File.Exists(TRANSACTION_FILE))
+            try
             {
-                using (File.Create(TRANSACTION_FILE)) { }
+                if (File.Exists(STOCK_FILE))
+                {
+                    load2DIntArrayFromFile(STOCK_FILE, ref BagelOpeningStock);
+                }
+                else
+                {
+                    BagelOpeningStock = (int[,])BagelStockLevels.Clone();
+                }
             }
+            catch (Exception) { BagelOpeningStock = (int[,])BagelStockLevels.Clone(); }
+
+            try
+            {
+                if (!File.Exists(TRANSACTION_FILE))
+                {
+                    using (File.Create(TRANSACTION_FILE)) { }
+                }
+            }
+            catch (Exception) { }
             BagelStockLevelsTemp = (int[,])BagelOpeningStock.Clone();
         }
 
-        private bool load2DDecimalArrayFromFile(String fileName, ref decimal[,] records)
+        private bool load2DDecimalArrayFromFile(String fileName, ref decimal[,] records) // This method will load a 2D decimal array from a file.
         {
             int row = 0;
             String[] RecordRow, AllRecordRows;
@@ -479,7 +523,7 @@ namespace Bagel_Shop
             return false;
         }
 
-        private bool load2DIntArrayFromFile(String fileName, ref int[,] records)
+        private bool load2DIntArrayFromFile(String fileName, ref int[,] records) // This method will load a 2D int array from a file.
         {
             int row = 0;
             String[] RecordRow, AllRecordRows;
@@ -504,7 +548,7 @@ namespace Bagel_Shop
             return false;
         }
 
-        private bool write2DIntArrayToFile(String fileName, int[,] records)
+        private bool write2DIntArrayToFile(String fileName, int[,] records) // This method will write a 2D int array to a file.
         {
             int row = 0;
             int[] RecordRow = new int[records.GetLength(1)];
@@ -530,11 +574,10 @@ namespace Bagel_Shop
             return false;
         }
 
-        private void addToCartBtn_Click(object sender, EventArgs e)
+        private void addToCartBtn_Click(object sender, EventArgs e) // This method will add the selected item to the cart.
         {
             int Quantity, QuantityInStock;
             decimal OrderPrice = 0;
-            String OrderLineItem = "";
             if (BagelNameIndex == -1 || BagelSizeIndex == -1)
             {
                 MessageBox.Show("Please select a bagel type and size", "Invalid Selection", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -548,8 +591,7 @@ namespace Bagel_Shop
                     if (Quantity <= QuantityInStock)
                     {
                         OrderPrice = BagelPrices[BagelNameIndex, BagelSizeIndex] * Quantity;
-                        OrderLineItem = BagelNames[BagelNameIndex] + " - " + BagelSizes[BagelSizeIndex] + "\t" + Quantity + "\t" + OrderPrice.ToString("C2", cultureInfo);
-                        ItemGroupBox.Items.Add(OrderLineItem);
+                        dgvOrders.Rows.Add(new String[] { BagelNames[BagelNameIndex], BagelSizes[BagelSizeIndex], Quantity.ToString(), OrderPrice.ToString("C2", cultureInfo) });
                         RunningTotal += OrderPrice;
                         totalDisplayLabel.Text = RunningTotal.ToString("C2", cultureInfo);
                         OrderedItems += Quantity;
@@ -573,6 +615,5 @@ namespace Bagel_Shop
             }
             return;
         }
-
     }
 }

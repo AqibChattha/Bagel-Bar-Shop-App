@@ -46,11 +46,12 @@
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.lbAverageTransactionPrice = new System.Windows.Forms.Label();
-            this.listBoxReport = new System.Windows.Forms.ListBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.btnToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.dgvReport = new System.Windows.Forms.DataGridView();
+            this.colStockItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTotalSale = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -58,11 +59,12 @@
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvReport)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.DarkCyan;
+            this.panel1.BackColor = System.Drawing.Color.SlateGray;
             this.panel1.Controls.Add(this.Exit);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -74,12 +76,13 @@
             // Exit
             // 
             this.Exit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Exit.BackColor = System.Drawing.Color.DarkTurquoise;
+            this.Exit.BackColor = System.Drawing.Color.LightSlateGray;
             this.Exit.FlatAppearance.BorderColor = System.Drawing.Color.WhiteSmoke;
             this.Exit.FlatAppearance.BorderSize = 2;
             this.Exit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Exit.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Exit.Location = new System.Drawing.Point(542, 524);
+            this.Exit.ForeColor = System.Drawing.Color.White;
+            this.Exit.Location = new System.Drawing.Point(549, 514);
             this.Exit.Name = "Exit";
             this.Exit.Size = new System.Drawing.Size(85, 29);
             this.Exit.TabIndex = 2;
@@ -93,29 +96,29 @@
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.BackColor = System.Drawing.Color.DarkTurquoise;
+            this.panel2.BackColor = System.Drawing.Color.LightSlateGray;
+            this.panel2.Controls.Add(this.dgvReport);
             this.panel2.Controls.Add(this.tableLayoutPanel1);
-            this.panel2.Controls.Add(this.listBoxReport);
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Location = new System.Drawing.Point(47, 35);
+            this.panel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel2.Location = new System.Drawing.Point(56, 35);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(580, 471);
+            this.panel2.Size = new System.Drawing.Size(550, 451);
             this.panel2.TabIndex = 0;
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.19841F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.80159F));
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel5, 1, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(38, 349);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(22, 312);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -142,10 +145,10 @@
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.label5.Location = new System.Drawing.Point(50, 3);
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(56, 4);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(142, 18);
+            this.label5.Size = new System.Drawing.Size(130, 16);
             this.label5.TabIndex = 0;
             this.label5.Text = "Total Value Of Sales";
             // 
@@ -153,10 +156,10 @@
             // 
             this.lbSalseValue.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbSalseValue.AutoSize = true;
-            this.lbSalseValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSalseValue.Location = new System.Drawing.Point(113, 27);
+            this.lbSalseValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSalseValue.Location = new System.Drawing.Point(114, 28);
             this.lbSalseValue.Name = "lbSalseValue";
-            this.lbSalseValue.Size = new System.Drawing.Size(17, 18);
+            this.lbSalseValue.Size = new System.Drawing.Size(15, 16);
             this.lbSalseValue.TabIndex = 0;
             this.lbSalseValue.Text = "0";
             // 
@@ -179,10 +182,10 @@
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.label4.Location = new System.Drawing.Point(39, 3);
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(47, 4);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(164, 18);
+            this.label4.Size = new System.Drawing.Size(148, 16);
             this.label4.TabIndex = 0;
             this.label4.Text = "Number Of Bagels Sold";
             // 
@@ -190,10 +193,10 @@
             // 
             this.lbBagelsSold.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbBagelsSold.AutoSize = true;
-            this.lbBagelsSold.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbBagelsSold.Location = new System.Drawing.Point(113, 27);
+            this.lbBagelsSold.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbBagelsSold.Location = new System.Drawing.Point(114, 28);
             this.lbBagelsSold.Name = "lbBagelsSold";
-            this.lbBagelsSold.Size = new System.Drawing.Size(17, 18);
+            this.lbBagelsSold.Size = new System.Drawing.Size(15, 16);
             this.lbBagelsSold.TabIndex = 0;
             this.lbBagelsSold.Text = "0";
             // 
@@ -216,10 +219,10 @@
             // 
             this.lbNumberOfTransactions.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbNumberOfTransactions.AutoSize = true;
-            this.lbNumberOfTransactions.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbNumberOfTransactions.Location = new System.Drawing.Point(113, 27);
+            this.lbNumberOfTransactions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbNumberOfTransactions.Location = new System.Drawing.Point(114, 28);
             this.lbNumberOfTransactions.Name = "lbNumberOfTransactions";
-            this.lbNumberOfTransactions.Size = new System.Drawing.Size(17, 18);
+            this.lbNumberOfTransactions.Size = new System.Drawing.Size(15, 16);
             this.lbNumberOfTransactions.TabIndex = 0;
             this.lbNumberOfTransactions.Text = "0";
             // 
@@ -227,10 +230,10 @@
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(17, 3);
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(28, 4);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(208, 18);
+            this.label6.Size = new System.Drawing.Size(186, 16);
             this.label6.TabIndex = 0;
             this.label6.Text = "Total Number Of Transactions";
             // 
@@ -253,10 +256,10 @@
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.label7.Location = new System.Drawing.Point(17, 3);
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(26, 4);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(208, 18);
+            this.label7.Size = new System.Drawing.Size(191, 16);
             this.label7.TabIndex = 0;
             this.label7.Text = "Average Price Per Transaction";
             // 
@@ -264,62 +267,69 @@
             // 
             this.lbAverageTransactionPrice.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbAverageTransactionPrice.AutoSize = true;
-            this.lbAverageTransactionPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbAverageTransactionPrice.Location = new System.Drawing.Point(113, 27);
+            this.lbAverageTransactionPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbAverageTransactionPrice.Location = new System.Drawing.Point(114, 28);
             this.lbAverageTransactionPrice.Name = "lbAverageTransactionPrice";
-            this.lbAverageTransactionPrice.Size = new System.Drawing.Size(17, 18);
+            this.lbAverageTransactionPrice.Size = new System.Drawing.Size(15, 16);
             this.lbAverageTransactionPrice.TabIndex = 0;
             this.lbAverageTransactionPrice.Text = "0";
-            // 
-            // listBoxReport
-            // 
-            this.listBoxReport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBoxReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listBoxReport.FormattingEnabled = true;
-            this.listBoxReport.ItemHeight = 18;
-            this.listBoxReport.Location = new System.Drawing.Point(38, 34);
-            this.listBoxReport.Margin = new System.Windows.Forms.Padding(2);
-            this.listBoxReport.Name = "listBoxReport";
-            this.listBoxReport.Size = new System.Drawing.Size(507, 310);
-            this.listBoxReport.TabIndex = 18;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(411, 14);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(84, 18);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Total Sale";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(260, 14);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 18);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Quantity";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(35, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 18);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Stock Item";
             // 
             // btnToolTip
             // 
             this.btnToolTip.IsBalloon = true;
             this.btnToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.btnToolTip.ToolTipTitle = "Info";
+            // 
+            // dgvReport
+            // 
+            this.dgvReport.AllowUserToAddRows = false;
+            this.dgvReport.AllowUserToDeleteRows = false;
+            this.dgvReport.AllowUserToResizeRows = false;
+            this.dgvReport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvReport.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            this.dgvReport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvReport.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colStockItem,
+            this.colSize,
+            this.colQuantity,
+            this.colTotalSale});
+            this.dgvReport.Location = new System.Drawing.Point(22, 20);
+            this.dgvReport.Name = "dgvReport";
+            this.dgvReport.ReadOnly = true;
+            this.dgvReport.RowHeadersVisible = false;
+            this.dgvReport.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dgvReport.Size = new System.Drawing.Size(507, 286);
+            this.dgvReport.TabIndex = 20;
+            // 
+            // colStockItem
+            // 
+            this.colStockItem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colStockItem.HeaderText = "Stock Item";
+            this.colStockItem.Name = "colStockItem";
+            this.colStockItem.ReadOnly = true;
+            // 
+            // colSize
+            // 
+            this.colSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colSize.HeaderText = "Size";
+            this.colSize.Name = "colSize";
+            this.colSize.ReadOnly = true;
+            // 
+            // colQuantity
+            // 
+            this.colQuantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colQuantity.HeaderText = "Quantity";
+            this.colQuantity.Name = "colQuantity";
+            this.colQuantity.ReadOnly = true;
+            // 
+            // colTotalSale
+            // 
+            this.colTotalSale.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colTotalSale.HeaderText = "Total Sales";
+            this.colTotalSale.Name = "colTotalSale";
+            this.colTotalSale.ReadOnly = true;
             // 
             // BagelReportForm
             // 
@@ -333,7 +343,6 @@
             this.Text = "MyBagelShop Inc. - Sales Report";
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
@@ -343,6 +352,7 @@
             this.tableLayoutPanel4.PerformLayout();
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvReport)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -352,10 +362,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button Exit;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListBox listBoxReport;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -370,5 +376,10 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Label lbAverageTransactionPrice;
         private System.Windows.Forms.ToolTip btnToolTip;
+        private System.Windows.Forms.DataGridView dgvReport;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStockItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colQuantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTotalSale;
     }
 }

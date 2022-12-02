@@ -55,7 +55,6 @@
             this.orderDetailsGroupBox = new System.Windows.Forms.GroupBox();
             this.removeBtn = new System.Windows.Forms.Button();
             this.orderBtn = new System.Windows.Forms.Button();
-            this.ItemGroupBox = new System.Windows.Forms.ListBox();
             this.clearBtn = new System.Windows.Forms.Button();
             this.addToCartBtn = new System.Windows.Forms.Button();
             this.quantityNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -78,6 +77,11 @@
             this.extraImagePictureBox = new System.Windows.Forms.PictureBox();
             this.exitBtn = new System.Windows.Forms.Button();
             this.btnToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.dgvOrders = new System.Windows.Forms.DataGridView();
+            this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.topPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.selectBagelgroupBox.SuspendLayout();
@@ -86,6 +90,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.quantityNumericUpDown)).BeginInit();
             this.searchTrxGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.extraImagePictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOrders)).BeginInit();
             this.SuspendLayout();
             // 
             // topPanel
@@ -406,9 +411,9 @@
             // orderDetailsGroupBox
             // 
             this.orderDetailsGroupBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.orderDetailsGroupBox.Controls.Add(this.dgvOrders);
             this.orderDetailsGroupBox.Controls.Add(this.removeBtn);
             this.orderDetailsGroupBox.Controls.Add(this.orderBtn);
-            this.orderDetailsGroupBox.Controls.Add(this.ItemGroupBox);
             this.orderDetailsGroupBox.Controls.Add(this.clearBtn);
             this.orderDetailsGroupBox.Controls.Add(this.addToCartBtn);
             this.orderDetailsGroupBox.Controls.Add(this.quantityNumericUpDown);
@@ -455,16 +460,6 @@
         "e user receipt.");
             this.orderBtn.UseVisualStyleBackColor = false;
             this.orderBtn.Click += new System.EventHandler(this.orderBtn_Click);
-            // 
-            // ItemGroupBox
-            // 
-            this.ItemGroupBox.FormattingEnabled = true;
-            this.ItemGroupBox.ItemHeight = 15;
-            this.ItemGroupBox.Location = new System.Drawing.Point(265, 13);
-            this.ItemGroupBox.Margin = new System.Windows.Forms.Padding(2);
-            this.ItemGroupBox.Name = "ItemGroupBox";
-            this.ItemGroupBox.Size = new System.Drawing.Size(356, 124);
-            this.ItemGroupBox.TabIndex = 17;
             // 
             // clearBtn
             // 
@@ -606,7 +601,7 @@
             this.searchTrxGroupBox.Size = new System.Drawing.Size(625, 220);
             this.searchTrxGroupBox.TabIndex = 30;
             this.searchTrxGroupBox.TabStop = false;
-            this.searchTrxGroupBox.Text = "Search transactions";
+            this.searchTrxGroupBox.Text = "-";
             // 
             // clearSearchBtn
             // 
@@ -689,10 +684,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.searchResultListBox.FormattingEnabled = true;
             this.searchResultListBox.ItemHeight = 15;
-            this.searchResultListBox.Location = new System.Drawing.Point(82, 27);
+            this.searchResultListBox.Location = new System.Drawing.Point(43, 27);
             this.searchResultListBox.Margin = new System.Windows.Forms.Padding(2);
             this.searchResultListBox.Name = "searchResultListBox";
-            this.searchResultListBox.Size = new System.Drawing.Size(461, 109);
+            this.searchResultListBox.Size = new System.Drawing.Size(539, 94);
             this.searchResultListBox.TabIndex = 28;
             // 
             // panel1
@@ -737,6 +732,56 @@
             this.btnToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.btnToolTip.ToolTipTitle = "Info";
             // 
+            // dgvOrders
+            // 
+            this.dgvOrders.AllowUserToAddRows = false;
+            this.dgvOrders.AllowUserToDeleteRows = false;
+            this.dgvOrders.AllowUserToResizeRows = false;
+            this.dgvOrders.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            this.dgvOrders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvOrders.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colType,
+            this.colSize,
+            this.colQuantity,
+            this.colPrice});
+            this.dgvOrders.Location = new System.Drawing.Point(265, 13);
+            this.dgvOrders.Name = "dgvOrders";
+            this.dgvOrders.ReadOnly = true;
+            this.dgvOrders.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dgvOrders.Size = new System.Drawing.Size(355, 123);
+            this.dgvOrders.TabIndex = 34;
+            // 
+            // colType
+            // 
+            this.colType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colType.HeaderText = "Type";
+            this.colType.Name = "colType";
+            this.colType.ReadOnly = true;
+            // 
+            // colSize
+            // 
+            this.colSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSize.HeaderText = "Size";
+            this.colSize.Name = "colSize";
+            this.colSize.ReadOnly = true;
+            this.colSize.Width = 56;
+            // 
+            // colQuantity
+            // 
+            this.colQuantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colQuantity.HeaderText = "Quantity";
+            this.colQuantity.Name = "colQuantity";
+            this.colQuantity.ReadOnly = true;
+            this.colQuantity.Width = 65;
+            // 
+            // colPrice
+            // 
+            this.colPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colPrice.HeaderText = "Price";
+            this.colPrice.Name = "colPrice";
+            this.colPrice.ReadOnly = true;
+            this.colPrice.Width = 62;
+            // 
             // MyBagelShopApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -771,6 +816,7 @@
             this.searchTrxGroupBox.ResumeLayout(false);
             this.searchTrxGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.extraImagePictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOrders)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -824,7 +870,11 @@
         private System.Windows.Forms.PictureBox extraImagePictureBox;
         private System.Windows.Forms.Button exitBtn;
         private System.Windows.Forms.ToolTip btnToolTip;
-        private System.Windows.Forms.ListBox ItemGroupBox;
+        private System.Windows.Forms.DataGridView dgvOrders;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colQuantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPrice;
     }
 }
 
